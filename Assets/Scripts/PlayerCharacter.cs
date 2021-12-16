@@ -5,14 +5,13 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour
 {
     public bool inCutScene { get; set; }
-    public float moveSpeed = 4.0f;
+    public float moveSpeed;
     private Vector2 movement;
+    public Animator anim;
 
     private Rigidbody2D _body;
     //private PlayerDialogue _dialogue;
 
-    float last_input_x = 0;
-    float last_input_y = 0;
 
     //private SpriteRenderer _renderer;
     //private Animator _animator;
@@ -28,23 +27,35 @@ public class PlayerCharacter : MonoBehaviour
         _body = GetComponent<Rigidbody2D>();
     }
 
+    void ProcessInputs()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+        movement = new Vector2(moveX, moveY);
+        movement = movement.normalized;
+        anim.SetFloat("walking", Mathf.Abs(moveX)+Mathf.Abs(moveY));
+
+    }
+
+    void Move()
+    {
+        _body.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
+    }
+
     void Update()
+    {
+        if (!inCutScene)
+        {
+            ProcessInputs();
+        }
+    }
+
+    void FixedUpdate()
     {
         // read movement input
         if (!inCutScene)
         {
-            if (Input.GetAxisRaw("Horizontal") == 0) {
-                movement.y = Input.GetAxisRaw("Vertical");
-            }
-            if (Input.GetAxisRaw("Vertical") == 0) {
-                movement.x = Input.GetAxisRaw("Horizontal");
-            }
-            movement = movement.normalized;
-
-            // animation
-
-            //unit_vector_from_input * speed * time is basically multiplying each element in the vector by a scalar
-            _body.MovePosition(_body.position + movement * moveSpeed * Time.fixedDeltaTime);
+            Move();
 
         }
 
