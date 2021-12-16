@@ -4621,7 +4621,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 03c4b968ffb030646b5abe98dff68dcc, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4773,7 +4772,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c8c162af3fac7f145b8d1295eff18b1c, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9508,7 +9506,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 519ffdde64b6aa54180d54372779f0b0, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14259,13 +14256,13 @@ MonoBehaviour:
   RainFallParticleSystem: {fileID: 19804216}
   RainExplosionParticleSystem: {fileID: 19837776}
   RainMistParticleSystem: {fileID: 19862954}
-  RainMistThreshold: 0.5
+  RainMistThreshold: 0
   WindSound: {fileID: 8300000, guid: f9826f595784348498b57bcf6b2c8b1f, type: 3}
   WindSoundVolumeModifier: 0.5
   WindZone: {fileID: 18238810}
   WindSpeedRange: {x: 1, y: 150, z: 150}
   WindChangeInterval: {x: 5, y: 30}
-  EnableWind: 0
+  EnableWind: 1
   RainHeightMultiplier: 0.15
   RainWidthMultiplier: 1.5
   CollisionMask:
