@@ -34,7 +34,6 @@ public class PlayerCharacter : MonoBehaviour
         movement = new Vector2(moveX, moveY);
         movement = movement.normalized;
         anim.SetFloat("walking", Mathf.Abs(moveX)+Mathf.Abs(moveY));
-
     }
 
     void Move()
