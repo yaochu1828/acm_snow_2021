@@ -17,11 +17,13 @@ public class Eyelid : MonoBehaviour
     {
         if (Input.GetKey("e"))
         {
+            GameManager.instance.playerEyesClosed = true;
             _eyelidAnimator.SetBool("Open", false);
             _eyelidAnimator.SetBool("Close", true);
         }
         if (Input.GetKeyUp("e"))
         {
+            GameManager.instance.playerEyesClosed = false;
             _eyelidAnimator.SetBool("Open", true);
             _eyelidAnimator.SetBool("Close", false);
         }

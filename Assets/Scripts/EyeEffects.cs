@@ -58,6 +58,7 @@ public class EyeEffects : MonoBehaviour
     public void TriggerEffects(int triggerID)
     {
         stareDuration = StareDurations.stareSeconds[triggerID];
+        GameManager.instance.enemyEyesOpened = true;
         StartCoroutine(LerpEffects());
         StartCoroutine(DimPlayerLight(dimRadiusOffset,dimLightOffset));
         StartCoroutine(SlowPlayer(slowMultiplier));

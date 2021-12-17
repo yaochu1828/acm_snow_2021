@@ -10,6 +10,8 @@ public class MonologueTrigger : MonoBehaviour
     private TextMeshProUGUI _text;
     public string message;
 
+    private bool trigger = true;
+
     private void Start()
     {
         _player = FindObjectOfType<PlayerCharacter>();
@@ -19,15 +21,16 @@ public class MonologueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (true) //condition
-        {
 
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine(TypeLine(message));
+        if (trigger)
+        {
+            StartCoroutine(TypeLine(message));
+            trigger = false;
+        } 
         Debug.Log("I am here");
     }
 

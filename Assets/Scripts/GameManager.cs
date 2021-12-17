@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,15 @@ public class GameManager : MonoBehaviour
     public bool playerDuck;
     public AudioSource audioSource;
     public AudioClip[] fallClips;
+    private bool firstTimeFall = true;
+    private bool firstTimeBlown = true;
+
+    private PlayerCharacter _player;
+    private Canvas _worldSpaceCanvas;
+    private TextMeshProUGUI _text;
+
+    public bool playerEyesClosed = false;
+    public bool enemyEyesOpened = false;
 
     void Awake()
     {
@@ -40,6 +50,9 @@ public class GameManager : MonoBehaviour
     {
         stickpos = stick.GetComponent<Transform>();
         audioSource = gameObject.GetComponent<AudioSource>();
+        _player = FindObjectOfType<PlayerCharacter>();
+        _worldSpaceCanvas = _player.gameObject.GetComponentInChildren<Canvas>();
+        _text = _worldSpaceCanvas.GetComponent<TextMeshProUGUI>();
     }
 
     void operateStick()
@@ -54,7 +67,8 @@ public class GameManager : MonoBehaviour
             canPick = false;
             stickanim.SetBool("holdon", true);
         }
-        if (isHold == true && Input.GetKeyUp(KeyCode.J) || (isHold==true && isblow==true && playerDuck == false))
+        if (isHold == true && Input.GetKeyUp(KeyCode.J) || (isHold == true && isblow == true && playerDuck == false) ||
+            isHold == true && enemyEyesOpened == true && playerEyesClosed == false)
         {
             audioSource.clip = fallClips[1];
             audioSource.Play();
@@ -62,8 +76,18 @@ public class GameManager : MonoBehaviour
             stickpos.parent = null;
             isHold = false;
             droppos_ins = droppos;
-
             stickMove = true;
+            if (firstTimeFall)
+            {
+                StartCoroutine(TypeLine("I have to hold on to it"));
+                firstTimeFall = false;
+            }
+
+            if (isblow && firstTimeBlown)
+            {
+                StartCoroutine(TypeLine("[Hold Space to duck]"));
+                firstTimeBlown = false;
+            }
         }
     }
 
@@ -80,5 +104,20 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         operateStick();
+    }
+
+
+    private IEnumerator TypeLine(string message)
+    {
+        yield return new WaitForSeconds(1);
+        _text.text = "";
+        char[] lineByChar = message.ToCharArray();
+        foreach (char character in lineByChar)
+        {
+            _text.text += character;
+            yield return null; //goes throught the loop once per frame
+        }
+        yield return new WaitForSeconds(2);
+        _text.text = "";
     }
 }
