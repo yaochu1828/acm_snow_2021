@@ -75,12 +75,17 @@ public class PlayerCharacter : MonoBehaviour
 
     private AudioClip GetRandomClip()
     {
-        if (sceneName == "Lake")
+        if (sceneName == "Scene_2")
             return lakeclips[Random.Range(0, lakeclips.Length)];
         else
         {
             return groundclips[Random.Range(0, groundclips.Length)];
         }
+    }
+
+    public void ChangeSpeed()
+    {
+
     }
 
     void Update()

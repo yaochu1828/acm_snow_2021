@@ -49,6 +49,7 @@ public class LakeEnterTrigger : MonoBehaviour
         if (trigger)
         {
             trigger = false;
+            Debug.Log("Triggered");
             StartCoroutine(SetChromatic());
             StartCoroutine(SetVignette());
         }
