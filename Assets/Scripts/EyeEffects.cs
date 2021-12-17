@@ -86,13 +86,9 @@ public class EyeEffects : MonoBehaviour
 
     private IEnumerator SlowPlayer(float multiplier)
     {
-        _player.moveSpeed = _player.moveSpeed * multiplier;
-        _playerAnimator.SetFloat("moveSpeed", multiplier);
-
+        _player.ChangeSpeed(multiplier);
         yield return new WaitForSeconds(stareDuration);
-
-        _player.moveSpeed = _player.moveSpeed / multiplier;
-        _playerAnimator.SetFloat("moveSpeed", 1);
+        _player.ChangeSpeed(1 / multiplier, true);
     }
 
     private IEnumerator DimPlayerLight(float radiusOffset, float intensityOffset)

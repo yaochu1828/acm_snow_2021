@@ -83,9 +83,17 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    public void ChangeSpeed()
+    public void ChangeSpeed(float multiplier, bool reset = false)
     {
-
+        moveSpeed *= multiplier;
+        if (reset)
+        {
+            anim.SetFloat("moveSpeed", 1);
+        }
+        else
+        {
+            anim.SetFloat("moveSpeed", multiplier);
+        }
     }
 
     void Update()
