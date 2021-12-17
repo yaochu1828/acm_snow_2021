@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
             spawnpos.transform.position = new Vector2(spawnpos.transform.position.x, -8);
             isHold = true;
         }
+        if(level==3)
+        {
+            spawnpos.transform.position = new Vector2(spawnpos.transform.position.x, -4);
+            isHold = true;
+        }
 
         player.transform.position = spawnpos.position;
     }
