@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class EyeEffects : MonoBehaviour
 {
-    private Volume _volume;
+    public Volume _volume;
     private ChromaticAberration chromatic;
     private Vignette vignette;
 
@@ -31,15 +31,22 @@ public class EyeEffects : MonoBehaviour
         _player = FindObjectOfType<PlayerCharacter>();
         _playerAnimator = _player.GetComponent<Animator>();
         _playerLight = _player.GetComponentInChildren<Light2D>();
-        _volume = FindObjectOfType<Volume>();
 
         if (_volume.profile.TryGet<ChromaticAberration>(out chromatic))
         {
             currAberration = chromatic.intensity.value;
         }
+        else
+        {
+            Debug.Log("Could not access abberation");
+        }
         if (_volume.profile.TryGet<Vignette>(out vignette))
         {
             currAberration = vignette.intensity.value;
+        }
+        else
+        {
+            Debug.Log("Could not access vignette");
         }
 
         

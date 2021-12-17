@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class LakeEnterTrigger : MonoBehaviour
 {
-    private Volume _volume;
+    public Volume _volume;
     private ChromaticAberration chromatic;
     private Vignette vignette;
 
@@ -21,7 +21,6 @@ public class LakeEnterTrigger : MonoBehaviour
     void Start()
     {
         _player = FindObjectOfType<PlayerCharacter>();
-        _volume = FindObjectOfType<Volume>();
 
         if (_volume.profile.TryGet<ChromaticAberration>(out chromatic))
         {
