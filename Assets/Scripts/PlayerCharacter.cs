@@ -29,6 +29,7 @@ public class PlayerCharacter : MonoBehaviour
     void Awake()
     {
         inCutScene = false;
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called once the moment when the object is instantiated
@@ -54,11 +55,13 @@ public class PlayerCharacter : MonoBehaviour
         {
             anim.SetBool("ducking", true);
             isDuck = true;
+            GameManager.instance.playerDuck = true;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             anim.SetBool("ducking", false);
             isDuck = false;
+            GameManager.instance.playerDuck = false;
         }
     }
 
