@@ -8,12 +8,12 @@ public class StareDurations: MonoBehaviour
 
     private void Start()
     {
-        stareSeconds.Add(7f);
-        stareSeconds.Add(9f);
-        stareSeconds.Add(10f);
-        stareSeconds.Add(7f);
+        stareSeconds.Add(6f);
         stareSeconds.Add(8f);
+        stareSeconds.Add(9f);
+        stareSeconds.Add(6f);
         stareSeconds.Add(7f);
-        stareSeconds.Add(7f);
+        stareSeconds.Add(6f);
+        stareSeconds.Add(6f);
     }
 }
