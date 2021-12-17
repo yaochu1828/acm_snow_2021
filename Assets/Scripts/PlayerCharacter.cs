@@ -9,6 +9,7 @@ public class PlayerCharacter : MonoBehaviour
     public float moveSpeed;
     private Vector2 movement;
     public Animator anim;
+    private bool isDuck = false;
 
     private Rigidbody2D _body;
     //private PlayerDialogue _dialogue;
@@ -47,6 +48,19 @@ public class PlayerCharacter : MonoBehaviour
         movement = movement.normalized;
         anim.SetFloat("walking", Mathf.Abs(moveX)+Mathf.Abs(moveY));
     }
+    void ProcessDucking()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetBool("ducking", true);
+            isDuck = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            anim.SetBool("ducking", false);
+            isDuck = false;
+        }
+    }
 
     void Move()
     {
@@ -74,13 +88,18 @@ public class PlayerCharacter : MonoBehaviour
         if (!inCutScene)
         {
             ProcessInputs();
+            ProcessDucking();
         }
     }
 
     void FixedUpdate()
     {
+        if(isDuck)
+        {
+            _body.velocity = new Vector2(0, 0);
+        }
         // read movement input
-        if (!inCutScene)
+        if (!inCutScene && !isDuck)
         {
             Move();
         }
