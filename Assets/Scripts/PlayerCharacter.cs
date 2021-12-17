@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerCharacter : MonoBehaviour
 {
     public bool inCutScene { get; set; }
-    public float moveSpeed;
+    public float moveSpeed = 1;
     private Vector2 movement;
     public Animator anim;
     private bool isDuck = false;
@@ -91,6 +91,7 @@ public class PlayerCharacter : MonoBehaviour
         moveSpeed *= multiplier;
         if (reset)
         {
+            moveSpeed = 1;
             anim.SetFloat("moveSpeed", 1);
         }
         else
