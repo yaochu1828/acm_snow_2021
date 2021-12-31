@@ -11,6 +11,7 @@ public class RoomManager : MonoBehaviour
     private float holdSeconds = 0;
 
     public float transitionTime = 1f;
+    public Animator _eyelidAnimator;
 
 
     public void Awake()
@@ -49,22 +50,23 @@ public class RoomManager : MonoBehaviour
 
     private IEnumerator SceneTransition()
     {
-        int nextRoom = currentRoom + 1;
-        Debug.Log("Moving to room " + nextRoom);
+        //int nextRoom = currentRoom + 1;
+        //Debug.Log("Moving to room " + nextRoom);
+        yield return new WaitForSeconds(5f);
+        //transitionAnimator.SetTrigger("StartNext"); // Room fades out
+        yield return new WaitForSeconds(3f);
+        QuitApplication();
+        //transitionAnimator.SetInteger("Level", nextRoom);
 
-        transitionAnimator.SetTrigger("StartNext"); // Room fades out
-        yield return new WaitForSeconds(transitionTime);
-        transitionAnimator.SetInteger("Level", nextRoom);
-
-        SceneManager.LoadScene("Scene_" + nextRoom);
+       // SceneManager.LoadScene("Scene_" + nextRoom);
             
-        transitionAnimator.SetTrigger("End"); // New room fades in
-        yield return new WaitForSeconds(transitionTime);
+        //transitionAnimator.SetTrigger("End"); // New room fades in
+       // yield return new WaitForSeconds(transitionTime);
             
-        transitionAnimator.ResetTrigger("End");
-        transitionAnimator.ResetTrigger("StartNext");
+        //transitionAnimator.ResetTrigger("End");
+       // transitionAnimator.ResetTrigger("StartNext");
 
-        currentRoom = nextRoom;
+        //currentRoom = nextRoom;
         //if (currentRoom == 7)
         //{
         //    yield return new WaitForSeconds(6);

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Snowman : MonoBehaviour
 {
-    Collider2D collider;
+    public GameObject _player;
+    private Collider2D _collider;
     Animator anim;
+    public StickMotion stick;
+    public RoomManager sceneManager;
+    public GameObject snowLight;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +26,12 @@ public class Snowman : MonoBehaviour
     {
         if (collision.tag == "Player" && GameManager.instance.isHold)
         {
+            GameManager.instance.isHug = true;
+            snowLight.SetActive(true);
+            stick.gameObject.SetActive(false);
+            Destroy(_player);
             anim.SetBool("hug", true);
+            //sceneManager.NextScene(); an alternative for ending (simple blacking out)
         }
             
     }

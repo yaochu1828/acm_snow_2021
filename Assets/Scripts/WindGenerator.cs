@@ -10,7 +10,6 @@ public class WindGenerator : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
     }
     private void Start()
     {
@@ -23,6 +22,11 @@ public class WindGenerator : MonoBehaviour
 
     void windBlow()
     {
+        if (GameManager.instance.isLastScene)
+        {
+            _player.ChangeSpeed(1, true);
+            return;
+        }
         float randomTime = Random.Range(4, 6);
         if (!particle.isPlaying)
         {

@@ -10,8 +10,10 @@ public class PlayerCharacter : MonoBehaviour
     private Vector2 movement;
     public Animator anim;
     private bool isDuck = false;
+    public Transform holdpos;
 
     private Rigidbody2D _body;
+    private StickMotion _stick;
     //private PlayerDialogue _dialogue;
 
     private AudioSource audioSource;
@@ -39,6 +41,7 @@ public class PlayerCharacter : MonoBehaviour
         currentScene = SceneManager.GetActiveScene();
         sceneName = currentScene.name;
         audioSource = GetComponent<AudioSource>();
+        _stick = FindObjectOfType<StickMotion>();
     }
 
     void ProcessInputs()
@@ -56,13 +59,35 @@ public class PlayerCharacter : MonoBehaviour
             anim.SetBool("ducking", true);
             isDuck = true;
             GameManager.instance.playerDuck = true;
+            //_stick.gameObject.GetComponent<Renderer>().enabled = false;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             anim.SetBool("ducking", false);
             isDuck = false;
             GameManager.instance.playerDuck = false;
+            //_stick.gameObject.GetComponent<Renderer>().enabled = true;
         }
+    }
+    public void StickToHand()
+    {
+        _stick.gameObject.transform.SetParent(gameObject.transform);
+        _stick.gameObject.transform.localPosition = new Vector2(holdpos.localPosition.x, holdpos.localPosition.y);
+        GameManager.instance.picking = false;
+        GameManager.instance.isHold = true;
+        GameManager.instance.canPick = false;
+        _stick.GetComponent<Animator>().SetBool("holdon", true);
+    }
+    public void SettingStick()
+    {
+        if (GameManager.instance.isHold == true)
+            _stick.gameObject.GetComponent<Renderer>().enabled = false;
+    }
+
+    public void DuckingStick()
+    {
+        if(GameManager.instance.isHold==true)
+            _stick.gameObject.GetComponent<Renderer>().enabled = true;
     }
 
     void Move()
@@ -78,7 +103,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private AudioClip GetRandomClip()
     {
-        if (sceneName == "Scene_2")
+        if (GameManager.instance.isAtLake == true)
             return lakeclips[Random.Range(0, lakeclips.Length)];
         else
         {

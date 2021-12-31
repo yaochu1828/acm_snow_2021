@@ -3874,6 +3874,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1380526693}
     - target: {fileID: 49994865471021116, guid: 24686c1ecd62e1b4d8798572d44539ae, type: 3}
+      propertyPath: isFirstFrame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 49994865471021116, guid: 24686c1ecd62e1b4d8798572d44539ae, type: 3}
       propertyPath: fallClips.Array.size
       value: 2
       objectReference: {fileID: 0}

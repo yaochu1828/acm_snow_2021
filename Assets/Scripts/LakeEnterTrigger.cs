@@ -49,6 +49,7 @@ public class LakeEnterTrigger : MonoBehaviour
         {
             trigger = false;
             Debug.Log("Triggered");
+            GameManager.instance.isAtLake = true;
             StartCoroutine(SetChromatic());
             StartCoroutine(SetVignette());
         }

@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject player;
     public GameObject stick;
     public Transform stickpos;
     public Transform holdpos;
@@ -25,10 +24,17 @@ public class GameManager : MonoBehaviour
     public AudioClip[] fallClips;
     private bool firstTimeFall = true;
     private bool firstTimeBlown = true;
+    public bool dropStickFromEye = false;
+    public bool isFirstFrame = false;
+    public bool isAtLake = false;
+    public bool isLastScene = false;
+    public bool isHug = false;
+    public bool picking = false;
 
     private PlayerCharacter _player;
     private Canvas _worldSpaceCanvas;
     private TextMeshProUGUI _text;
+    public Canvas _credits;
 
     public bool playerEyesClosed = false;
     public bool enemyEyesOpened = false;
@@ -54,61 +60,85 @@ public class GameManager : MonoBehaviour
         _worldSpaceCanvas = _player.gameObject.GetComponentInChildren<Canvas>();
         _text = _worldSpaceCanvas.GetComponent<TextMeshProUGUI>();
     }
+    
 
-    void operateStick()
+    void OperateStick()
     {
-        if (isHold == false && canPick == true && Input.GetKeyDown(KeyCode.J))
+        if (isHold == false && isHug==false && canPick == true && Input.GetKeyDown(KeyCode.J))
         {
+            _player.GetComponent<Animator>().SetTrigger("picked");
             audioSource.clip = fallClips[0];
             audioSource.Play();
-            stickpos.SetParent(player.transform);
-            stickpos.localPosition = new Vector2(holdpos.localPosition.x, holdpos.localPosition.y);
-            isHold = true;
-            canPick = false;
-            stickanim.SetBool("holdon", true);
+            StartCoroutine(PickingUp());
         }
-        if (isHold == true && Input.GetKeyUp(KeyCode.J) || (isHold == true && isblow == true && playerDuck == false) ||
-            isHold == true && enemyEyesOpened == true && playerEyesClosed == false)
+        if (isHold == true && isHug==false && picking==false)
         {
-            audioSource.clip = fallClips[1];
-            audioSource.Play();
-            stickanim.SetBool("holdon", false);
-            stickpos.parent = null;
-            isHold = false;
-            droppos_ins = droppos;
-            stickMove = true;
-            if (firstTimeFall)
+            if ((isFirstFrame==false && Input.GetKey(KeyCode.J)==false) || (isblow == true && playerDuck == false) || (dropStickFromEye == true && playerEyesClosed == false))
             {
-                StartCoroutine(TypeLine("I have to hold on to it"));
-                firstTimeFall = false;
-            }
-
-            if (isblow && firstTimeBlown)
-            {
-                StartCoroutine(TypeLine("[Hold Space to duck]"));
-                firstTimeBlown = false;
+                stick.GetComponent<Renderer>().enabled = true;
+                audioSource.clip = fallClips[1];
+                audioSource.Play();
+                stickanim.SetBool("holdon", false);
+                stickpos.parent = null;
+                isHold = false;
+                droppos_ins = droppos;
+                StartCoroutine(StartDropping());
+                /*
+                if (firstTimeFall)
+                {
+                    StartCoroutine(TypeLine("I have to hold on to it"));
+                    firstTimeFall = false;
+                }
+                */
+                if (isblow && firstTimeBlown)
+                {
+                    StartCoroutine(TypeLine("[Hold Space to duck]"));
+                    firstTimeBlown = false;
+                }
             }
         }
     }
 
+    private IEnumerator PickingUp()
+    {
+        picking = true;
+        yield return new WaitForSeconds(0.5f);
+        picking = false;
+    }
+    private IEnumerator StartDropping()
+    {
+        stickMove = true;
+        yield return new WaitForSeconds(0.4f);
+        stickMove = false;
+    }
     private void OnLevelWasLoaded(int level)
     {
+        _player.transform.position = spawnpos.position;
+        isFirstFrame = true;
+        StartCoroutine(WaitFrames());
         if (level == 2)
         {
             spawnpos.transform.position = new Vector2(spawnpos.transform.position.x, -8);
             isHold = true;
         }
-        if(level==3)
+        if (level == 3)
         {
-            spawnpos.transform.position = new Vector2(spawnpos.transform.position.x, -4);
+            spawnpos.transform.position = GameObject.Find("placement").transform.position;
             isHold = true;
         }
 
-        player.transform.position = spawnpos.position;
+    }
+
+
+    private IEnumerator WaitFrames()
+    {
+        yield return new WaitForSeconds(1f);
+        isFirstFrame = false;
+
     }
     void Update()
     {
-        operateStick();
+        OperateStick();
     }
 
 

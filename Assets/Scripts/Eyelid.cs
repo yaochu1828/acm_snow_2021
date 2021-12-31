@@ -20,12 +20,31 @@ public class Eyelid : MonoBehaviour
             GameManager.instance.playerEyesClosed = true;
             _eyelidAnimator.SetBool("Open", false);
             _eyelidAnimator.SetBool("Close", true);
+            CloseEyesQuit();
         }
-        if (Input.GetKeyUp("e"))
+        if (Input.GetKeyUp("e") && !GameManager.instance.isHug)
         {
             GameManager.instance.playerEyesClosed = false;
             _eyelidAnimator.SetBool("Open", true);
             _eyelidAnimator.SetBool("Close", false);
         }
     }
+
+    private void CloseEyesQuit()
+    {
+        if (GameManager.instance.isHug)
+        {
+            StartCoroutine(QuitGame());
+        }
+    }
+
+    private IEnumerator QuitGame()
+    {
+        yield return new WaitForSeconds(2f);
+        GameManager.instance._credits.gameObject.SetActive(true);
+        yield return new WaitForSeconds(4f);
+        Debug.Log("quitting game");
+        Application.Quit();
+    }
+
 }

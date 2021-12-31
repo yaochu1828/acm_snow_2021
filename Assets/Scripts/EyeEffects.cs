@@ -58,12 +58,21 @@ public class EyeEffects : MonoBehaviour
     public void TriggerEffects(int triggerID)
     {
         stareDuration = StareDurations.stareSeconds[triggerID];
-        GameManager.instance.enemyEyesOpened = true;
+        StartCoroutine(EyesOpened());
         StartCoroutine(LerpEffects());
         StartCoroutine(DimPlayerLight(dimRadiusOffset,dimLightOffset));
         StartCoroutine(SlowPlayer(slowMultiplier));
     } 
 
+    private IEnumerator EyesOpened()
+    {
+        GameManager.instance.enemyEyesOpened = true;
+        yield return new WaitForSeconds(1f);
+        GameManager.instance.dropStickFromEye = true;
+        yield return new WaitForSeconds(stareDuration-1);
+        GameManager.instance.enemyEyesOpened = false;
+        GameManager.instance.dropStickFromEye = false;
+    }
     private IEnumerator LerpEffects()
     {
         float lerpElapsed = 0;

@@ -8,6 +8,7 @@ public class LevelExit : MonoBehaviour
 {
 
     private RoomManager _roomControl;
+    public GameObject _wind;
 
     void Start()
     {
@@ -20,13 +21,9 @@ public class LevelExit : MonoBehaviour
         PlayerCharacter player = other.GetComponent<PlayerCharacter>();
         if (player != null)
         {
-            Debug.Log("Exit Reached");
-            _roomControl.NextScene();
+            _wind.SetActive(true);
         }
-        else
-        {
-            Debug.Log("No collider");
-        }
+            
     }
 
 }

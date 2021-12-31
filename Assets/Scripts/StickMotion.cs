@@ -15,9 +15,9 @@ public class StickMotion : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        stickpos = gameObject.GetComponent<Transform>();
-
+        stickpos = gameObject.GetComponent<Transform>(); 
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player" && GameManager.instance.isHold == false)
